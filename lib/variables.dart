@@ -1,2 +1,26 @@
+import 'dart:async';
+import 'package:flutter/cupertino.dart';
 
+StreamController<String> displayStream = StreamController.broadcast();
+StreamController<String> displaySizeStream = StreamController.broadcast();
+StreamController<int> baseNCardStream = StreamController.broadcast();
+StreamController<IconData> activatedStream = StreamController.broadcast();
 String displayValue = '0';
+double displaySize = 60;
+bool onHex = false;
+bool onDec = true;
+bool onOct = false;
+bool onBin = false;
+List<String> notDec = ['A', 'B', 'C', 'D', 'E', 'F'];
+List<String> notOct = ['A', 'B', 'C', 'D', 'E', 'F', '8', '9'];
+List<String> notBin = ['A', 'B', 'C', 'D', 'E', 'F', '2', '3', '4', '5', '6', '7', '8', '9'];
+bool isHex = false;
+bool isDec = true;
+bool isOct = false;
+bool isBin = false;
+bool toAdd = false;
+bool toMinus = false;
+bool toMultiply = false;
+bool toDivide = false;
+int firstDec = 0;
+int secondDec = 0;

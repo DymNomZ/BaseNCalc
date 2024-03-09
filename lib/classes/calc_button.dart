@@ -1,5 +1,8 @@
+import 'package:base_n_calculator/classes/colors.dart';
 import 'package:base_n_calculator/classes/ios_style_text.dart';
+import 'package:base_n_calculator/functions.dart';
 import 'package:base_n_calculator/variables.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CalcButton extends StatefulWidget {
@@ -23,30 +26,64 @@ class CalcButton extends StatefulWidget {
 
 class _CalcButtonState extends State<CalcButton> {
 
+  bool? isDisabled;
+  bool isActivated = false;
+  int currentOperator = 0;
+
+  @override
+  void initState(){
+    currentOperator = determineOperator(widget.icon);
+    activatedStream.stream.listen((result){
+      if(widget.icon == result && isActivated == false){
+        setState(() {
+          isActivated = true;
+        });
+      }else{
+        setState(() {
+          isActivated = false;
+        });
+      }
+    });
+    setState(() {
+      isDisabled = determineIfDisabled(widget.text);
+    });
+    baseNCardStream.stream.listen((data) {
+      bool response = determineIfDisabled(widget.text);
+      setState(() {
+        isDisabled = response;
+      });
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.all(widget.pad ?? 3),
       child: ClipOval(
         child: Material(
-          color: widget.color ?? const Color(0xFF343434),
+          color: (widget.text != null)
+          ? (!isDisabled!) ? widget.color : IOSColors.disabled
+          : (isActivated) ? Colors.white : widget.color,
           child: InkWell(
-            splashColor: Colors.white,
+            highlightColor: (isDisabled!) ? IOSColors.transparent : null,
+            splashColor: (isDisabled!) ? IOSColors.transparent : null,
+            onLongPress: (widget.text == 'Del') ? clear : null,
             onTap: () {
-              print(displayValue);
-              if(widget.text != null){
-                if(displayValue == '0'){
-                  setState(() {
-                    displayValue = widget.text!;
-                  });
-                  print(displayValue);
+              if(isDisabled!) {
+                return;
+              } else if(widget.text != null){
+                if(widget.text != 'Del'){
+                  concatenate(widget.text!);
                 }
                 else{
-                  setState(() {
-                    displayValue += widget.text!;
-                    print(displayValue);
-                  });
+                  delete(widget.text!);
                 }
+              } else if(widget.icon != CupertinoIcons.plus_slash_minus){
+                setState(() {
+                  isActivated = !isActivated;
+                });
+                determineIfActivated(widget.icon);
               }
             },
             child: SizedBox(
@@ -59,7 +96,7 @@ class _CalcButtonState extends State<CalcButton> {
               pad: widget.textPad)
             : Icon(
               widget.icon ?? Icons.menu,
-              color: widget.iconColor ?? Colors.white
+              color: (isActivated) ? widget.iconColor : Colors.white
             )),
           ),
         ),

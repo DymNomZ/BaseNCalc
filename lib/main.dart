@@ -1,4 +1,6 @@
+import 'package:base_n_calculator/classes/base_n_display.dart';
 import 'package:base_n_calculator/classes/calc_pad.dart';
+import 'package:base_n_calculator/classes/ios_style_text.dart';
 import 'package:base_n_calculator/functions.dart';
 import 'package:base_n_calculator/variables.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +37,36 @@ class Calc extends StatefulWidget {
 
 class _CalcState extends State<Calc> {
 
+  String display = '0';
+  double displaySize = 60;
 
+  @override
+  void initState(){
+    displayStream.stream.listen((data){
+      if(data == '0'){
+        setState(() {
+          displaySize = 60;
+        });
+      }
+      setState(() {
+        display = data;
+      });
+      if(display.length > 8 && displaySize != 40){
+        setState(() {
+          displaySize -= 2.5;
+        });
+      }
+    });
+    displaySizeStream.stream.listen((data) {
+      //works but right now will only add initially then resumes after length reaches 8
+      if(displaySize != 60){
+        setState(() {
+          displaySize += 2.5;
+        });
+      }
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,8 +76,17 @@ class _CalcState extends State<Calc> {
       ),
       body: Column(
         children: <Widget>[
-          Text(displayValue, style: TextStyle(color: Colors.white),),
-          CalcPad(),
+          Expanded(
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: IOStext(text: display, size: displaySize, weight: FontWeight.w300),
+            )),
+          ),
+          const BaseNDisplay(),
+          const SizedBox(height: 20),
+          const CalcPad(),
         ],
       ),
     );
