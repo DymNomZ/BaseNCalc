@@ -19,6 +19,12 @@ class _BaseNDisplayState extends State<BaseNDisplay> {
 
   @override
   void initState(){
+    displayStream.stream.listen((event) {
+      convertDisplay();
+      setState(() {
+        
+      });
+    });
     baseNCardStream.stream.listen((data) {
       setState(() {
         currentMode = data;
@@ -50,7 +56,7 @@ class _BaseNDisplayState extends State<BaseNDisplay> {
                 color: Colors.black,
                 child: const IOStext(text: 'HEX', size: 20, pad: 3),
               ),
-              IOStext(text: '0', size: 20, pad: 3),
+              IOStext(text: displayHex, size: 20, pad: 3, weight: FontWeight.w300),
             ],
           ),
         ),
@@ -73,7 +79,7 @@ class _BaseNDisplayState extends State<BaseNDisplay> {
                 color: Colors.black,
                 child: const IOStext(text: 'DEC', size: 20, pad: 3),
               ),
-              IOStext(text: '0', size: 20, pad: 3),
+              IOStext(text: displayDec, size: 20, pad: 3, weight: FontWeight.w300),
             ],
           ),
         ),
@@ -96,7 +102,7 @@ class _BaseNDisplayState extends State<BaseNDisplay> {
                 color: Colors.black,
                 child: const IOStext(text: 'OCT', size: 20, pad: 3),
               ),
-              IOStext(text: '0', size: 20, pad: 3),
+              IOStext(text: displayOct, size: 20, pad: 3, weight: FontWeight.w300, align: TextAlign.start),
             ],
           ),
         ),
@@ -118,8 +124,8 @@ class _BaseNDisplayState extends State<BaseNDisplay> {
                 width: 50,
                 color: Colors.black,
                 child: const IOStext(text: 'BIN', size: 20, pad: 3),
-              ),
-              IOStext(text: '0000 0000 0000 0000 0000 0000 0000 0000\n0000 0000 0000 0000 0000 0000 0000 0000', size: 15, pad: 3),
+              ),//'0000 0000 0000 0000 0000 0000 0000 0000\n0000 0000 0000 0000 0000 0000 0000 0000'
+              IOStext(text: displayBin, size: 20, pad: 3, weight: FontWeight.w300),
             ],
           ),
         ),

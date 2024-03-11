@@ -7,9 +7,10 @@ class IOStext extends StatelessWidget {
   final double? size;
   final double? pad;
   final FontWeight? weight;
+  final TextAlign? align;
 
   const IOStext({required this.text, this.color, 
-  this.size, this.weight, this.pad, super.key});
+  this.size, this.pad, this.weight, this.align, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,7 @@ class IOStext extends StatelessWidget {
         fontSize: size ?? 30, 
         fontWeight: weight ?? FontWeight.w500,
         color: color ?? Colors.white), 
-      textAlign: TextAlign.center,),
+      textAlign: align ?? TextAlign.center,),
     );
   }
 }
