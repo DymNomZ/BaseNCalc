@@ -1,7 +1,6 @@
 import 'package:base_n_calculator/classes/base_n_display.dart';
 import 'package:base_n_calculator/classes/calc_pad.dart';
 import 'package:base_n_calculator/classes/ios_style_text.dart';
-import 'package:base_n_calculator/functions.dart';
 import 'package:base_n_calculator/variables.dart';
 import 'package:flutter/material.dart';
 
