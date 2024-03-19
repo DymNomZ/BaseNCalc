@@ -54,6 +54,7 @@ class _AddButtonState extends State<AddButton> {
           color: (isActivated) ? Colors.white : IOSColors.secondary,
           child: InkWell(
             onTap: () {
+              resetBin();
               if(isChain){
                 if(secondValue == 0){
                   secondValue = convert();
@@ -134,6 +135,7 @@ class _MinusButtonState extends State<MinusButton> {
           color: (isActivated) ? Colors.white : IOSColors.secondary,
           child: InkWell(
             onTap: () {
+              resetBin();
               if(isChain){
                 if(secondValue == 0){
                   secondValue = convert();
@@ -213,6 +215,7 @@ class _DivideButtonState extends State<DivideButton> {
           color: (isActivated) ? Colors.white : IOSColors.secondary,
           child: InkWell(
             onTap: () {
+              resetBin();
               if(isChain){
                 if(secondValue == 0){
                   secondValue = convert();
@@ -292,6 +295,7 @@ class _MultiplyButtonState extends State<MultiplyButton> {
           color: (isActivated) ? Colors.white : IOSColors.secondary,
           child: InkWell(
             onTap: () {
+              resetBin();
               if(isChain){
                 if(secondValue == 0){
                   secondValue = convert();
@@ -359,13 +363,9 @@ class _EqualButtonState extends State<EqualButton> {
           color: IOSColors.secondary,
           child: InkWell(
             onTap: () {
+              resetBin();
               if(toOperate){
-                if(chainOperate){
-                  displayStream.sink.add(displayValue);
-                  firstValue = 0;
-                  secondValue = 0;
-                  willOperateStream.sink.add(false);
-                }else if(secondValue == 0){
+                if(secondValue == 0){
                   secondValue = convert();
                   compute();
                 }

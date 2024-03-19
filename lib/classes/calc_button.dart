@@ -51,9 +51,6 @@ class _CalcButtonState extends State<CalcButton> {
 
   @override
   Widget build(BuildContext context) {
-    print('operate: $toOperate');
-     print('first: $firstValue');
-     print('chain: $chainOperate');
     return Padding(
       padding: EdgeInsets.all(widget.pad ?? 3),
       child: ClipOval(
@@ -81,10 +78,8 @@ class _CalcButtonState extends State<CalcButton> {
                       activatedStream.sink.add(false);
                       clear();
                     }
-                    print('first1: $firstValue');
                     concatenate(widget.text!);
                   }else{
-                    print('first2: $firstValue');
                     concatenate(widget.text!);
                   }
                 }

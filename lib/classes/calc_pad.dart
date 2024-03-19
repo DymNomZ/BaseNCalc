@@ -35,7 +35,7 @@ class _CalcPadState extends State<CalcPad> {
           fifth: const MultiplyButton(),
         ),
         ButtonRow(
-          first: CalcButton(color:  IOSColors.tertiary, text: '2s', textColor: Colors.black),
+          first: const TwosButton(),
           second: CalcButton(color: IOSColors.primary, text: '7'),
           third: CalcButton(color: IOSColors.primary, text: '8'),
           fourth: CalcButton(color: IOSColors.primary, text: '9'),

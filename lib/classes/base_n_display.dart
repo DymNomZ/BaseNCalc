@@ -16,12 +16,17 @@ class BaseNDisplay extends StatefulWidget {
 class _BaseNDisplayState extends State<BaseNDisplay> {
 
   int currentMode = 2;
+  double binSize = 20;
 
   @override
   void initState(){
-    binaryStream.stream.listen((event) {
+    binaryStream.stream.listen((complement) {
       setState(() {
-        
+        if(displayBin.length > 35 && onOnes == true){
+          binSize = 16;
+        }else if(displayBin.length > 35 && onOnes == false){
+          binSize = 20;
+        }
       });
     });
     displayStream.stream.listen((event) {
@@ -121,7 +126,9 @@ class _BaseNDisplayState extends State<BaseNDisplay> {
                 margin: const EdgeInsets.only(left: 15),
                 height: 30,
                 width: 5,
-                color: (currentMode == 4) ? IOSColors.secondary : Colors.black,
+                color: (onOnes) ? IOSColors.ones : 
+                (onTwos) ? IOSColors.twos : (currentMode == 4)
+                ? IOSColors.secondary : Colors.black,
               ),
               Container(
                 margin: const EdgeInsets.only(right: 10),
@@ -130,7 +137,7 @@ class _BaseNDisplayState extends State<BaseNDisplay> {
                 color: Colors.black,
                 child: const IOStext(text: 'BIN', size: 20, pad: 3),
               ),//'0000 0000 0000 0000 0000 0000 0000 0000\n0000 0000 0000 0000 0000 0000 0000 0000'
-              IOStext(text: displayBin, size: 18, pad: 3, weight: FontWeight.w300),
+              IOStext(text: displayBin, size: binSize, pad: 3, weight: FontWeight.w300),
             ],
           ),
         ),

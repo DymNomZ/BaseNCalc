@@ -10,6 +10,8 @@ void reset(){
   secondValue = 0;
   currentOperator = 0;
   onOnes = false;
+  onTwos = false;
+  binaryStream.sink.add(13);
   chainOperate = false;
   chainOperateStream.sink.add(false);
 }
@@ -77,29 +79,48 @@ void convertDisplay(){
 void resetBin(){
   int decimalEquiv = int.parse(displayDec, radix: 10);
   displayBin = decimalEquiv.toRadixString(2);
-  displayBin = displayBin.replaceAll('1', 'a');
-  displayBin = displayBin.replaceAll('0', '1');
-  displayBin = displayBin.replaceAll('a', '0');
   binarySeparator();
-  onOnes = false;
   binaryStream.sink.add(0);
 }
 
 void onesComplement(){
   if(displayBin != '0000'){
-    displayBin = displayBin.replaceAll('0', 'a');
-    displayBin = displayBin.replaceAll('1', '0');
-    displayBin = displayBin.replaceAll('a', '1');
-    binarySeparator();
-    onOnes = true;
-    binaryStream.sink.add(1);
+    if(onOnes == false){
+      int decimalEquiv = int.parse(displayDec, radix: 10);
+      displayBin = decimalEquiv.toRadixString(2);
+      binarySeparator();
+      displayBin = displayBin.replaceAll('0', 'a');
+      displayBin = displayBin.replaceAll('1', '0');
+      displayBin = displayBin.replaceAll('a', '1');
+      onOnes = true;
+      binaryStream.sink.add(1);
+    }else{
+      resetBin();
+      onOnes = false;
+    }
   }
 }
 
 void twosComplement(){
-  int decimalEquiv = int.parse(displayValue, radix: 2);
-  decimalEquiv -= decimalEquiv * 2;
-  displayBin = decimalEquiv.toRadixString(2);
+  if(displayValue != '0'){
+    int decimalEquiv = int.parse(displayDec, radix: 10);
+    if(onTwos == false){
+      displayBin = decimalEquiv.toRadixString(2);
+      compensator();
+      displayBin = displayBin.replaceAll('0', 'a');
+      displayBin = displayBin.replaceAll('1', '0');
+      displayBin = displayBin.replaceAll('a', '1');
+      decimalEquiv = int.parse(displayBin, radix: 2);
+      decimalEquiv += 1;
+      displayBin = decimalEquiv.toRadixString(2);
+      binarySeparator();
+      onTwos = true;
+      binaryStream.sink.add(2);
+    }else{
+      resetBin();
+      onTwos = false;
+    }
+  }
 }
 
 void hexSeparator() {
@@ -136,14 +157,7 @@ void octalSeparator() {
 }
 
 void binarySeparator() {
-  String compensate = '0';
-  if (displayBin.length % 4 != 0) {
-    int remainder = displayBin.length % 4;
-    for(int i = 0; i < 3-remainder; i++){
-      compensate += '0';
-    }
-    displayBin = compensate + displayBin;
-  }
+  compensator();
   String separatedBinary = '';
   int spaceCounter = 0;
    for (int i = 0; i < displayBin.length; i += 4) {
@@ -158,6 +172,17 @@ void binarySeparator() {
      }
    }
   displayBin = separatedBinary;
+}
+
+void compensator(){
+  String compensate = '0';
+  if (displayBin.length % 4 != 0) {
+    int remainder = displayBin.length % 4;
+    for(int i = 0; i < 3-remainder; i++){
+      compensate += '0';
+    }
+    displayBin = compensate + displayBin;
+  }
 }
 
 void add(){
@@ -262,7 +287,7 @@ void baseMode(int mode){
     onDec = false;
     onOct = false;
     onBin = true;
-    displayValue = displayBin;
+    displayValue = (displayBin != '0000') ? displayBin : '0';
   }
   baseNCardStream.sink.add(mode);
   displayStream.sink.add(displayValue);
