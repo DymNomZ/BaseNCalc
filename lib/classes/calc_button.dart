@@ -14,11 +14,12 @@ class CalcButton extends StatefulWidget {
   final double? textSize;
   final double? textPad;
   final Color? color;
+  final Color? textColor;
   final Color? iconColor;
   final Widget? child;
 
-  const CalcButton({this.size, this.pad, this.icon, this.text,
-  this.textSize, this.textPad, this.color, this.iconColor, this.child, super.key});
+  const CalcButton({this.size, this.pad, this.icon, this.text, this.textSize, 
+  this.textPad, this.color, this.textColor, this.iconColor, this.child, super.key});
 
   @override
   State<CalcButton> createState() => _CalcButtonState();
@@ -52,6 +53,7 @@ class _CalcButtonState extends State<CalcButton> {
   Widget build(BuildContext context) {
     print('operate: $toOperate');
      print('first: $firstValue');
+     print('chain: $chainOperate');
     return Padding(
       padding: EdgeInsets.all(widget.pad ?? 3),
       child: ClipOval(
@@ -61,15 +63,19 @@ class _CalcButtonState extends State<CalcButton> {
           child: InkWell(
             highlightColor: (isDisabled!) ? IOSColors.transparent : null,
             splashColor: (isDisabled!) ? IOSColors.transparent : null,
-            onLongPress: (widget.text == 'Del') ? clear : null,
+            onLongPress: (widget.text == 'Del') ? reset : null,
             onTap: () {
               if(isDisabled!) {
                 return;
               } else if(widget.text != null){
                 if(widget.text == 'Del'){
-                  delete(widget.text!);
+                  delete();
                 }else{
                   if(toOperate){
+                    if(chainOperate){
+                      activatedStream.sink.add(false);
+                      clear();
+                    }
                     if(firstValue == 0){
                       firstValue = convert();
                       activatedStream.sink.add(false);
@@ -91,6 +97,7 @@ class _CalcButtonState extends State<CalcButton> {
             ? IOStext(
               text: widget.text!, 
               size: widget.textSize,
+              color: widget.textColor ?? Colors.white,
               pad: widget.textPad)
             : Icon(
               widget.icon ?? Icons.menu,

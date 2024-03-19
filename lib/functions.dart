@@ -1,6 +1,19 @@
 import 'package:base_n_calculator/variables.dart';
 import 'package:flutter/cupertino.dart';
 
+void reset(){
+  clear();
+  willOperateStream.sink.add(false);
+  activatedStream.sink.add(false);
+  operatorStream.sink.add(CupertinoIcons.car_detailed); // :p
+  firstValue = 0;
+  secondValue = 0;
+  currentOperator = 0;
+  onOnes = false;
+  chainOperate = false;
+  chainOperateStream.sink.add(false);
+}
+
 int convert(){
   if(onHex){
     return int.parse(displayValue, radix: 16);
@@ -55,7 +68,71 @@ void convertDisplay(){
     displayOct = decimalEquiv.toRadixString(8);
     displayBin = displayValue;
   }
+  //hexSeparator();
+  //decimalSeparator();
+  //octalSeparator();
   binarySeparator();
+}
+
+void resetBin(){
+  int decimalEquiv = int.parse(displayDec, radix: 10);
+  displayBin = decimalEquiv.toRadixString(2);
+  displayBin = displayBin.replaceAll('1', 'a');
+  displayBin = displayBin.replaceAll('0', '1');
+  displayBin = displayBin.replaceAll('a', '0');
+  binarySeparator();
+  onOnes = false;
+  binaryStream.sink.add(0);
+}
+
+void onesComplement(){
+  if(displayBin != '0000'){
+    displayBin = displayBin.replaceAll('0', 'a');
+    displayBin = displayBin.replaceAll('1', '0');
+    displayBin = displayBin.replaceAll('a', '1');
+    binarySeparator();
+    onOnes = true;
+    binaryStream.sink.add(1);
+  }
+}
+
+void twosComplement(){
+  int decimalEquiv = int.parse(displayValue, radix: 2);
+  decimalEquiv -= decimalEquiv * 2;
+  displayBin = decimalEquiv.toRadixString(2);
+}
+
+void hexSeparator() {
+  String separatedHex = displayHex;
+  for(int i = 4; i < displayHex.length; i += 4){
+    separatedHex = separatedHex.substring(0, i) + ' ' + separatedHex.substring(i);
+  }
+}
+
+void decimalSeparator() {
+  String separatedDecimal = '';
+  if(displayDec.length % 4 == 0){
+    for (int i = 0; i < displayDec.length; i += 4) {
+     String decimalGroup = displayDec.substring(i, i + 4);
+     separatedDecimal += decimalGroup;
+     if (i < displayDec.length - 4) {
+       separatedDecimal += ',';
+     }
+   }
+  displayDec = separatedDecimal;
+  }
+}
+
+void octalSeparator() {
+  String separatedOctal = '';
+   for (int i = 0; i < displayOct.length; i += 4) {
+     String octalGroup = displayOct.substring(i, i + 4);
+     separatedOctal += octalGroup;
+     if (i < displayOct.length - 4) {
+       separatedOctal += ' ';
+     }
+   }
+  displayOct = separatedOctal;
 }
 
 void binarySeparator() {
@@ -143,9 +220,11 @@ void concatenate(String data){
   displayStream.sink.add(displayValue);
 }
 
-void delete(String data){
-  if(displayValue.length <= 1){
+void delete(){
+  if(displayValue.length <= 1 || (displayValue.length == 2 && displayValue.startsWith('-'))){
     displayValue = '0';
+    willOperateStream.sink.add(false);
+    activatedStream.sink.add(false);
   }
   else{
     displayValue = displayValue.substring(0, displayValue.length - 1);

@@ -21,9 +21,15 @@ class AddButton extends StatefulWidget {
 class _AddButtonState extends State<AddButton> {
 
   bool isActivated = false;
+  bool isChain = false;
 
   @override
   void initState(){
+    willOperateStream.stream.listen((status){
+      setState(() {
+        isChain = status;
+      });
+    });
     operatorStream.stream.listen((value) {
       if(value != CupertinoIcons.add){
         setState(() {
@@ -48,6 +54,16 @@ class _AddButtonState extends State<AddButton> {
           color: (isActivated) ? Colors.white : IOSColors.secondary,
           child: InkWell(
             onTap: () {
+              if(isChain){
+                if(secondValue == 0){
+                  secondValue = convert();
+                  compute();
+                }
+                firstValue = convert();
+                secondValue = 0;
+                chainOperate = true;
+                chainOperateStream.sink.add(true);
+              }
               setState(() {
                 isActivated = !isActivated;
               });
@@ -85,9 +101,15 @@ class MinusButton extends StatefulWidget {
 class _MinusButtonState extends State<MinusButton> {
 
   bool isActivated = false;
+  bool isChain = false;
 
   @override
   void initState(){
+    willOperateStream.stream.listen((status){
+      setState(() {
+        isChain = status;
+      });
+    });
     operatorStream.stream.listen((value) {
       if(value != CupertinoIcons.minus){
         setState(() {
@@ -112,6 +134,15 @@ class _MinusButtonState extends State<MinusButton> {
           color: (isActivated) ? Colors.white : IOSColors.secondary,
           child: InkWell(
             onTap: () {
+              if(isChain){
+                if(secondValue == 0){
+                  secondValue = convert();
+                  compute();
+                }
+                firstValue = convert();
+                secondValue = 0;
+                chainOperate = true;
+              }
               setState(() {
                 isActivated = !isActivated;
               });
@@ -149,9 +180,15 @@ class DivideButton extends StatefulWidget {
 class _DivideButtonState extends State<DivideButton> {
 
   bool isActivated = false;
+  bool isChain = false;
 
   @override
   void initState(){
+    willOperateStream.stream.listen((status){
+      setState(() {
+        isChain = status;
+      });
+    });
     operatorStream.stream.listen((value) {
       if(value != CupertinoIcons.divide){
         setState(() {
@@ -176,6 +213,15 @@ class _DivideButtonState extends State<DivideButton> {
           color: (isActivated) ? Colors.white : IOSColors.secondary,
           child: InkWell(
             onTap: () {
+              if(isChain){
+                if(secondValue == 0){
+                  secondValue = convert();
+                  compute();
+                }
+                firstValue = convert();
+                secondValue = 0;
+                chainOperate = true;
+              }
               setState(() {
                 isActivated = !isActivated;
               });
@@ -213,9 +259,15 @@ class MultiplyButton extends StatefulWidget {
 class _MultiplyButtonState extends State<MultiplyButton> {
 
   bool isActivated = false;
+  bool isChain = false;
 
   @override
   void initState(){
+    willOperateStream.stream.listen((status){
+      setState(() {
+        isChain = status;
+      });
+    });
     operatorStream.stream.listen((value) {
       if(value != CupertinoIcons.multiply){
         setState(() {
@@ -240,6 +292,15 @@ class _MultiplyButtonState extends State<MultiplyButton> {
           color: (isActivated) ? Colors.white : IOSColors.secondary,
           child: InkWell(
             onTap: () {
+              if(isChain){
+                if(secondValue == 0){
+                  secondValue = convert();
+                  compute();
+                }
+                firstValue = convert();
+                secondValue = 0;
+                chainOperate = true;
+              }
               setState(() {
                 isActivated = !isActivated;
               });
@@ -299,11 +360,17 @@ class _EqualButtonState extends State<EqualButton> {
           child: InkWell(
             onTap: () {
               if(toOperate){
-                if(secondValue == 0){
+                if(chainOperate){
+                  displayStream.sink.add(displayValue);
+                  firstValue = 0;
+                  secondValue = 0;
+                  willOperateStream.sink.add(false);
+                }else if(secondValue == 0){
                   secondValue = convert();
                   compute();
                 }
               }
+              chainOperate = false;
             },
             child: SizedBox(
               width: widget.size ?? 75, 

@@ -19,6 +19,11 @@ class _BaseNDisplayState extends State<BaseNDisplay> {
 
   @override
   void initState(){
+    binaryStream.stream.listen((event) {
+      setState(() {
+        
+      });
+    });
     displayStream.stream.listen((event) {
       convertDisplay();
       setState(() {

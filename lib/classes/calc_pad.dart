@@ -1,3 +1,4 @@
+import 'package:base_n_calculator/classes/binary_buttons.dart';
 import 'package:base_n_calculator/classes/button_row.dart';
 import 'package:base_n_calculator/classes/calc_button.dart';
 import 'package:base_n_calculator/classes/colors.dart';
@@ -27,28 +28,28 @@ class _CalcPadState extends State<CalcPad> {
           fifth: CalcButton(color: IOSColors.secondary, text: 'Del', textSize: 25, textPad: 20),
         ),
         ButtonRow(
-          first: CalcButton(color:  IOSColors.tertiary, iconColor: Colors.black),
+          first: const OnesButton(),
           second: CalcButton(color: IOSColors.primary, text: 'A'),
           third: CalcButton(color: IOSColors.primary, text: 'B'),
           fourth: CalcButton(color: IOSColors.primary, text: 'C'),
           fifth: const MultiplyButton(),
         ),
         ButtonRow(
-          first: CalcButton(color:  IOSColors.tertiary, iconColor: Colors.black),
+          first: CalcButton(color:  IOSColors.tertiary, text: '2s', textColor: Colors.black),
           second: CalcButton(color: IOSColors.primary, text: '7'),
           third: CalcButton(color: IOSColors.primary, text: '8'),
           fourth: CalcButton(color: IOSColors.primary, text: '9'),
           fifth: const DivideButton(),
         ),
         ButtonRow(
-          first: CalcButton(color:  IOSColors.tertiary, iconColor: Colors.black),
+          first: CalcButton(color:  IOSColors.tertiary, text: 'LE', textColor: Colors.black,),
           second: CalcButton(color: IOSColors.primary, text: '4'),
           third: CalcButton(color: IOSColors.primary, text: '5'),
           fourth: CalcButton(color: IOSColors.primary, text: '6'),
           fifth: const MinusButton(),
         ),
         ButtonRow(
-          first: CalcButton(color:  IOSColors.tertiary, iconColor: Colors.black),
+          first: CalcButton(color:  IOSColors.tertiary, text: 'BE', textColor: Colors.black),
           second: CalcButton(color: IOSColors.primary, text: '1'),
           third: CalcButton(color: IOSColors.primary, text: '2'),
           fourth: CalcButton(color: IOSColors.primary, text: '3'),
