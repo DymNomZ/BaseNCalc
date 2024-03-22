@@ -1,4 +1,5 @@
 import 'package:base_n_calculator/classes/colors.dart';
+import 'package:base_n_calculator/classes/ios_style_text.dart';
 import 'package:base_n_calculator/functions.dart';
 import 'package:base_n_calculator/variables.dart';
 import 'package:flutter/cupertino.dart';
@@ -379,6 +380,229 @@ class _EqualButtonState extends State<EqualButton> {
               CupertinoIcons.equal,
               color: Colors.white
             )),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ExponentButton extends StatefulWidget {
+  //Made entirely by me: DymNomZ
+  final double? size;
+  final double? pad;
+  final Color? color;
+  final Color? iconColor;
+  final Widget? child;
+
+  const ExponentButton({this.size, this.pad, this.color, this.iconColor, this.child, super.key});
+
+  @override
+  State<ExponentButton> createState() => _ExponentButtonState();
+}
+
+class _ExponentButtonState extends State<ExponentButton> {
+
+  bool isActivated = false;
+  bool isChain = false;
+
+  @override
+  void initState(){
+    willOperateStream.stream.listen((status){
+      setState(() {
+        isChain = status;
+      });
+    });
+    operatorStream.stream.listen((value) {
+      if(value != CupertinoIcons.multiply_square){
+        setState(() {
+          isActivated = false;
+        });
+      }
+    });
+    activatedStream.stream.listen((status) {
+      setState(() {
+        isActivated = status;
+      });
+    });
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.all(widget.pad ?? 3),
+      child: ClipOval(
+        child: Material(
+          color: (isActivated) ? Colors.white : IOSColors.tertiary,
+          child: InkWell(
+            onTap: () {
+              resetBin();
+              if(isChain){
+                if(secondValue == 0){
+                  secondValue = convert();
+                  compute();
+                }
+                firstValue = convert();
+                secondValue = 0;
+                chainOperate = true;
+              }
+              setState(() {
+                isActivated = !isActivated;
+              });
+              determineOperator(CupertinoIcons.multiply_square);
+              willOperateStream.sink.add(isActivated);
+            },
+            child: SizedBox(
+              width: widget.size ?? 75, 
+              height: widget.size ?? 75,
+            child: const IOStext(text: 'exp', color: Colors.black)
+            )
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ModuloButton extends StatefulWidget {
+  //Made entirely by me: DymNomZ
+  final double? size;
+  final double? pad;
+  final Color? color;
+  final Color? iconColor;
+  final Widget? child;
+
+  const ModuloButton({this.size, this.pad, this.color, this.iconColor, this.child, super.key});
+
+  @override
+  State<ModuloButton> createState() => _ModuloButtonState();
+}
+
+class _ModuloButtonState extends State<ModuloButton> {
+
+  bool isActivated = false;
+  bool isChain = false;
+
+  @override
+  void initState(){
+    willOperateStream.stream.listen((status){
+      setState(() {
+        isChain = status;
+      });
+    });
+    operatorStream.stream.listen((value) {
+      if(value != CupertinoIcons.percent){
+        setState(() {
+          isActivated = false;
+        });
+      }
+    });
+    activatedStream.stream.listen((status) {
+      setState(() {
+        isActivated = status;
+      });
+    });
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.all(widget.pad ?? 3),
+      child: ClipOval(
+        child: Material(
+          color: (isActivated) ? Colors.white : IOSColors.tertiary,
+          child: InkWell(
+            onTap: () {
+              resetBin();
+              if(isChain){
+                if(secondValue == 0){
+                  secondValue = convert();
+                  compute();
+                }
+                firstValue = convert();
+                secondValue = 0;
+                chainOperate = true;
+              }
+              setState(() {
+                isActivated = !isActivated;
+              });
+              determineOperator(CupertinoIcons.percent);
+              willOperateStream.sink.add(isActivated);
+            },
+            child: SizedBox(
+              width: widget.size ?? 75, 
+              height: widget.size ?? 75,
+            child: const Icon(CupertinoIcons.percent, size: 30,)),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class SignButton extends StatefulWidget {
+  //Made entirely by me: DymNomZ
+  final double? size;
+  final double? pad;
+  final Color? color;
+  final Color? iconColor;
+  final Widget? child;
+
+  const SignButton({this.size, this.pad, this.color, this.iconColor, this.child, super.key});
+
+  @override
+  State<SignButton> createState() => _SignButtonState();
+}
+
+class _SignButtonState extends State<SignButton> {
+
+  bool isActivated = false;
+  bool isChain = false;
+
+  @override
+  void initState(){
+    willOperateStream.stream.listen((status){
+      setState(() {
+        isChain = status;
+      });
+    });
+    operatorStream.stream.listen((value) {
+      if(value != CupertinoIcons.percent){
+        setState(() {
+          isActivated = false;
+        });
+      }
+    });
+    activatedStream.stream.listen((status) {
+      setState(() {
+        isActivated = status;
+      });
+    });
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.all(widget.pad ?? 3),
+      child: ClipOval(
+        child: Material(
+          color: (isActivated) ? Colors.white : IOSColors.primary,
+          child: InkWell(
+            onTap: () {
+              //resetBin();
+              //changeSign();
+              setState(() {
+                isActivated = !isActivated;
+              });
+            },
+            child: SizedBox(
+              width: widget.size ?? 75, 
+              height: widget.size ?? 75,
+            child: Icon(CupertinoIcons.plus_slash_minus, 
+            color: (isActivated) ? Colors.black : Colors.white)),
           ),
         ),
       ),

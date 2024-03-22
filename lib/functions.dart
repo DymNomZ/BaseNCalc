@@ -37,6 +37,10 @@ void compute(){
     divide();
   }else if(currentOperator == 4){
     multiply();
+  }else if(currentOperator == 5){
+    power();
+  }else if(currentOperator == 6){
+    modulo();
   }
   displayStream.sink.add(displayValue);
   firstValue = 0;
@@ -166,9 +170,9 @@ void binarySeparator() {
      if (i < displayBin.length - 4) {
        separatedBinary += ' ';
        spaceCounter++;
-     }
-     if(spaceCounter == 8){
-       separatedBinary += '\n';
+        if(spaceCounter == 7){
+        separatedBinary += '\n';
+      }
      }
    }
   displayBin = separatedBinary;
@@ -233,6 +237,49 @@ void divide(){
   }
 }
 
+void power(){
+  int answer = 1;
+  for(int i = 1; i <= secondValue; i++){
+      answer *= firstValue;
+    }
+  if(onHex){
+    displayValue = answer.toRadixString(16);
+  }else if(onDec){
+    displayValue = answer.toString();
+  }else if(onOct){
+    displayValue = answer.toRadixString(8);
+  }else if(onBin){
+    displayValue = answer.toRadixString(2);
+  }
+}
+
+void modulo(){
+  if(onHex){
+    displayValue = (firstValue % secondValue).toRadixString(16);
+  }else if(onDec){
+    displayValue = (firstValue % secondValue).toString();
+  }else if(onOct){
+    displayValue = (firstValue % secondValue).toRadixString(8);
+  }else if(onBin){
+    displayValue = (firstValue % secondValue).toRadixString(2);
+  }
+}
+
+void changeSign(){
+  twosComplement();
+  int decimalEquiv = int.parse(displayBin, radix: 2);
+  displayDec = (-decimalEquiv).toString();
+  displayHex = decimalEquiv.toRadixString(16);
+  displayOct = decimalEquiv.toRadixString(8);
+  if(onHex){
+    displayValue = displayHex;
+  }else if(onDec){
+    displayValue = displayDec;
+  }else if(onOct){
+    displayValue = displayOct;
+  }
+}
+
 void concatenate(String data){
   if(displayValue.length < 16){
     if(displayValue == '0'){
@@ -294,7 +341,7 @@ void baseMode(int mode){
 }
 
 bool determineIfDisabled(String? text){
-  if(onHex && text != '.'){ //temp for now until support for floating point
+  if(onHex){
     return false;
   }else if(onDec && notDec.contains(text)){
     return true;
@@ -302,8 +349,6 @@ bool determineIfDisabled(String? text){
     return true;
   }else if(onBin && notBin.contains(text)){
     return true;
-  }else if(text == '.'){
-    return true; //temp for now until support for floating point
   }
   return false;
 }
@@ -320,6 +365,12 @@ void determineOperator(IconData data){
     operatorStream.sink.add(data);
   }else if(data == CupertinoIcons.multiply){
     currentOperator = 4;
+    operatorStream.sink.add(data);
+  }else if(data == CupertinoIcons.multiply_square){
+    currentOperator = 5;
+    operatorStream.sink.add(data);
+  }else if(data == CupertinoIcons.percent){
+    currentOperator = 6;
     operatorStream.sink.add(data);
   }
   willOperateStream.sink.add(false);

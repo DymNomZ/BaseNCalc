@@ -2,9 +2,7 @@ import 'package:base_n_calculator/classes/colors.dart';
 import 'package:base_n_calculator/classes/ios_style_text.dart';
 import 'package:base_n_calculator/functions.dart';
 import 'package:base_n_calculator/variables.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class BaseNDisplay extends StatefulWidget {
   const BaseNDisplay({super.key});

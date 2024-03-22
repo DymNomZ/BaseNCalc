@@ -3,7 +3,6 @@ import 'package:base_n_calculator/classes/button_row.dart';
 import 'package:base_n_calculator/classes/calc_button.dart';
 import 'package:base_n_calculator/classes/colors.dart';
 import 'package:base_n_calculator/classes/operation_buttons.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CalcPad extends StatefulWidget {
@@ -42,14 +41,14 @@ class _CalcPadState extends State<CalcPad> {
           fifth: const DivideButton(),
         ),
         ButtonRow(
-          first: CalcButton(color:  IOSColors.tertiary, text: 'LE', textColor: Colors.black,),
+          first: const ExponentButton(),
           second: CalcButton(color: IOSColors.primary, text: '4'),
           third: CalcButton(color: IOSColors.primary, text: '5'),
           fourth: CalcButton(color: IOSColors.primary, text: '6'),
           fifth: const MinusButton(),
         ),
         ButtonRow(
-          first: CalcButton(color:  IOSColors.tertiary, text: 'BE', textColor: Colors.black),
+          first: const ModuloButton(),
           second: CalcButton(color: IOSColors.primary, text: '1'),
           third: CalcButton(color: IOSColors.primary, text: '2'),
           fourth: CalcButton(color: IOSColors.primary, text: '3'),
@@ -57,10 +56,10 @@ class _CalcPadState extends State<CalcPad> {
         ),
         ButtonRow(
           first: CalcButton(color:  IOSColors.tertiary, iconColor: Colors.black),
-          second: CalcButton(color: IOSColors.primary, text: '0'),
-          third: CalcButton(color: IOSColors.primary, text: '.', textSize: 50, textPad: 0),
-          fourth: CalcButton(color: IOSColors.primary, icon: CupertinoIcons.plus_slash_minus),
-          fifth: const EqualButton(),
+          second: CalcButton(color: IOSColors.primary, text: '0', width: 155),
+          third: const SignButton(),
+          fourth: const EqualButton(),
+          fifth: Container()
         ),
       ],
     );
