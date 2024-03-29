@@ -560,12 +560,14 @@ class _SignButtonState extends State<SignButton> {
 
   bool isActivated = false;
   bool isChain = false;
+  bool isDisabled = false;
 
   @override
   void initState(){
     willOperateStream.stream.listen((status){
       setState(() {
         isChain = status;
+        isDisabled = status;
       });
     });
     operatorStream.stream.listen((value) {
@@ -589,14 +591,22 @@ class _SignButtonState extends State<SignButton> {
       padding: EdgeInsets.all(widget.pad ?? 3),
       child: ClipOval(
         child: Material(
-          color: (isActivated) ? Colors.white : IOSColors.primary,
+          color: (isDisabled) ? IOSColors.disabled 
+          : (isActivated) ? Colors.white : IOSColors.primary,
           child: InkWell(
+            highlightColor: (isDisabled) ? IOSColors.transparent : null,
+            splashColor: (isDisabled) ? IOSColors.transparent : null,
             onTap: () {
               //resetBin();
-              //changeSign();
-              setState(() {
-                isActivated = !isActivated;
-              });
+              if(isDisabled){
+                return;
+              }else{
+                setState(() {
+                  isActivated = !isActivated;
+                  onChangeSign = !onChangeSign;
+                });
+                changeSign();
+              }
             },
             child: SizedBox(
               width: widget.size ?? 75, 

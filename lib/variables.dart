@@ -28,3 +28,6 @@ String displayBin = '0000';
 bool chainOperate = false;
 bool onOnes = false;
 bool onTwos = false;
+bool onChangeSign = false;
+bool isNegative = false;
+bool moduloNegative = false;

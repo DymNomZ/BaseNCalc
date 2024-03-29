@@ -21,9 +21,19 @@ class OnesButton extends StatefulWidget {
 class _OnesButtonState extends State<OnesButton> {
 
   bool isActivated = false;
+  bool isDisabled = false;
 
   @override
   void initState(){
+    displayStream.stream.listen((event) {
+      setState(() {
+        if(onChangeSign){
+          isDisabled = true;
+        }else{
+          isDisabled = false;
+        }
+      });
+    });
     binaryStream.stream.listen((complement) {
       if(complement != 1){
         setState(() {
@@ -41,18 +51,25 @@ class _OnesButtonState extends State<OnesButton> {
       padding: EdgeInsets.all(widget.pad ?? 3),
       child: ClipOval(
         child: Material(
-          color: (isActivated) ? Colors.white : IOSColors.tertiary,
+          color: (isDisabled) ? IOSColors.disabled 
+          : (isActivated) ? Colors.white : IOSColors.tertiary,
           child: InkWell(
+            highlightColor: (isDisabled) ? IOSColors.transparent : null,
+            splashColor: (isDisabled) ? IOSColors.transparent : null,
             onTap: () {
-              setState(() {
-                isActivated = !isActivated;
-              });
-              onesComplement();
+              if(isDisabled){
+                return;
+              }else{
+                setState(() {
+                  isActivated = !isActivated;
+                });
+                onesComplement();
+              }
             },
             child: SizedBox(
               width: widget.size ?? 75, 
               height: widget.size ?? 75,
-            child: const IOStext(text: '1s', color: Colors.black)
+            child: IOStext(text: '1s', color: (isDisabled) ? Colors.white : Colors.black)
             )
           ),
         ),
@@ -78,9 +95,19 @@ class TwosButton extends StatefulWidget {
 class _TwosButtonState extends State<TwosButton> {
 
   bool isActivated = false;
+  bool isDisabled = false;
 
   @override
   void initState(){
+    displayStream.stream.listen((event) {
+      setState(() {
+        if(onChangeSign){
+          isDisabled = true;
+        }else{
+          isDisabled = false;
+        }
+      });
+    });
     binaryStream.stream.listen((complement) {
       if(complement != 2){
         setState(() {
@@ -98,18 +125,25 @@ class _TwosButtonState extends State<TwosButton> {
       padding: EdgeInsets.all(widget.pad ?? 3),
       child: ClipOval(
         child: Material(
-          color: (isActivated) ? Colors.white : IOSColors.tertiary,
+          color: (isDisabled) ? IOSColors.disabled 
+          : (isActivated) ? Colors.white : IOSColors.tertiary,
           child: InkWell(
+            highlightColor: (isDisabled) ? IOSColors.transparent : null,
+            splashColor: (isDisabled) ? IOSColors.transparent : null,
             onTap: () {
-              setState(() {
-                isActivated = !isActivated;
-              });
-              twosComplement();
+              if(isDisabled){
+                return;
+              }else{
+                setState(() {
+                  isActivated = !isActivated;
+                });
+                twosComplement();
+              }
             },
             child: SizedBox(
               width: widget.size ?? 75, 
               height: widget.size ?? 75,
-            child: const IOStext(text: '2s', color: Colors.black)
+            child: IOStext(text: '2s', color: (isDisabled) ? Colors.white : Colors.black)
             )
           ),
         ),

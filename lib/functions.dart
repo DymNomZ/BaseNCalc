@@ -11,6 +11,7 @@ void reset(){
   currentOperator = 0;
   onOnes = false;
   onTwos = false;
+  onChangeSign = false;
   binaryStream.sink.add(13);
   chainOperate = false;
   chainOperateStream.sink.add(false);
@@ -49,48 +50,75 @@ void compute(){
 }
 
 void convertDisplay(){
+  String temp = '';
+  if(displayValue.contains('-')){
+    isNegative = true;
+    temp = displayValue.replaceAll('-', '');
+  }else{
+    isNegative = false;
+    temp = displayValue;
+  }
   if(onHex){
-    int decimalEquiv = int.parse(displayValue, radix: 16);
-    displayHex = displayValue.toUpperCase();
+    int decimalEquiv = int.parse(temp, radix: 16);
+    displayHex = temp.toUpperCase();
     displayDec = decimalEquiv.toString();
     displayOct = decimalEquiv.toRadixString(8);
     displayBin = decimalEquiv.toRadixString(2);
   }else if(onDec){
-    int decimalEquiv = int.parse(displayValue);
+    int decimalEquiv = int.parse(temp);
     displayHex = decimalEquiv.toRadixString(16).toUpperCase();
-    displayDec = displayValue;
+    displayDec = temp;
     displayOct = decimalEquiv.toRadixString(8);
     displayBin = decimalEquiv.toRadixString(2);
   }else if(onOct){
-    int decimalEquiv = int.parse(displayValue, radix: 8);
+    int decimalEquiv = int.parse(temp, radix: 8);
     displayHex = decimalEquiv.toRadixString(16).toUpperCase();
     displayDec = decimalEquiv.toString();
-    displayOct = displayValue;
+    displayOct = temp;
     displayBin = decimalEquiv.toRadixString(2);
   }else{
-    int decimalEquiv = int.parse(displayValue, radix: 2);
+    int decimalEquiv = int.parse(temp, radix: 2);
     displayHex = decimalEquiv.toRadixString(16).toUpperCase();
     displayDec = decimalEquiv.toString();
     displayOct = decimalEquiv.toRadixString(8);
-    displayBin = displayValue;
+    displayBin = temp;
   }
   //hexSeparator();
   //decimalSeparator();
   //octalSeparator();
-  binarySeparator();
+  if(displayValue.contains('-')){
+    displayHex = '-$displayHex';
+    displayDec = '-$displayDec';
+    displayOct = '-$displayOct';
+    twosComplement();
+  }else{
+    binarySeparator();
+  }
 }
 
 void resetBin(){
   int decimalEquiv = int.parse(displayDec, radix: 10);
   displayBin = decimalEquiv.toRadixString(2);
   binarySeparator();
+  if(displayBin.contains('-')){
+    displayBin = displayBin.replaceAll('-', '0');
+    displayBin = '-$displayBin';
+  }
   binaryStream.sink.add(0);
 }
 
 void onesComplement(){
+  int decimalEquiv = 0;
+  if(displayValue != '0'){
+    if(displayValue.contains('-')){
+      String temp = displayDec.replaceAll('-', '');
+      decimalEquiv = int.parse(temp, radix: 10);
+    }else{
+      decimalEquiv = int.parse(displayDec, radix: 10);
+    }
+  }
   if(displayBin != '0000'){
     if(onOnes == false){
-      int decimalEquiv = int.parse(displayDec, radix: 10);
       displayBin = decimalEquiv.toRadixString(2);
       binarySeparator();
       displayBin = displayBin.replaceAll('0', 'a');
@@ -100,14 +128,24 @@ void onesComplement(){
       binaryStream.sink.add(1);
     }else{
       resetBin();
+      if(displayBin.contains('-')){
+        displayBin = displayBin.replaceAll('-', '0');
+        displayBin = '-$displayBin';
+      }
       onOnes = false;
     }
   }
 }
 
 void twosComplement(){
+  int decimalEquiv = 0;
   if(displayValue != '0'){
-    int decimalEquiv = int.parse(displayDec, radix: 10);
+    if(displayValue.contains('-')){
+      String temp = displayDec.replaceAll('-', '');
+      decimalEquiv = int.parse(temp, radix: 10);
+    }else{
+      decimalEquiv = int.parse(displayDec, radix: 10);
+    }
     if(onTwos == false){
       displayBin = decimalEquiv.toRadixString(2);
       compensator();
@@ -122,6 +160,10 @@ void twosComplement(){
       binaryStream.sink.add(2);
     }else{
       resetBin();
+      if(displayBin.contains('-')){
+        displayBin = displayBin.replaceAll('-', '0');
+        displayBin = '-$displayBin';
+      }
       onTwos = false;
     }
   }
@@ -191,7 +233,7 @@ void compensator(){
 
 void add(){
   if(onHex){
-    displayValue = (firstValue + secondValue).toRadixString(16);
+    displayValue = (firstValue + secondValue).toRadixString(16).toUpperCase();
   }else if(onDec){
     displayValue = (firstValue + secondValue).toString();
   }else if(onOct){
@@ -203,7 +245,7 @@ void add(){
 
 void subtract(){
   if(onHex){
-    displayValue = (firstValue - secondValue).toRadixString(16);
+    displayValue = (firstValue - secondValue).toRadixString(16).toUpperCase();
   }else if(onDec){
     displayValue = (firstValue - secondValue).toString();
   }else if(onOct){
@@ -215,7 +257,7 @@ void subtract(){
 
 void multiply(){
   if(onHex){
-    displayValue = (firstValue * secondValue).toRadixString(16);
+    displayValue = (firstValue * secondValue).toRadixString(16).toUpperCase();
   }else if(onDec){
     displayValue = (firstValue * secondValue).toString();
   }else if(onOct){
@@ -227,7 +269,7 @@ void multiply(){
 
 void divide(){
   if(onHex){
-    displayValue = (firstValue ~/ secondValue).toRadixString(16);
+    displayValue = (firstValue ~/ secondValue).toRadixString(16).toUpperCase();
   }else if(onDec){
     displayValue = (firstValue ~/ secondValue).toString();
   }else if(onOct){
@@ -243,7 +285,7 @@ void power(){
       answer *= firstValue;
     }
   if(onHex){
-    displayValue = answer.toRadixString(16);
+    displayValue = answer.toRadixString(16).toUpperCase();
   }else if(onDec){
     displayValue = answer.toString();
   }else if(onOct){
@@ -254,8 +296,16 @@ void power(){
 }
 
 void modulo(){
+  if(firstValue < 0){
+    moduloNegative = true;
+    String temp = firstValue.toString();
+    temp = temp.replaceAll('-', '');
+    firstValue = int.parse(temp);
+  }else{
+    moduloNegative = false;
+  }
   if(onHex){
-    displayValue = (firstValue % secondValue).toRadixString(16);
+    displayValue = (firstValue % secondValue).toRadixString(16).toUpperCase();
   }else if(onDec){
     displayValue = (firstValue % secondValue).toString();
   }else if(onOct){
@@ -263,20 +313,35 @@ void modulo(){
   }else if(onBin){
     displayValue = (firstValue % secondValue).toRadixString(2);
   }
+  if(moduloNegative){
+    displayValue = '-$displayValue';
+  }
 }
 
 void changeSign(){
-  twosComplement();
-  int decimalEquiv = int.parse(displayBin, radix: 2);
-  displayDec = (-decimalEquiv).toString();
-  displayHex = decimalEquiv.toRadixString(16);
-  displayOct = decimalEquiv.toRadixString(8);
-  if(onHex){
-    displayValue = displayHex;
-  }else if(onDec){
-    displayValue = displayDec;
-  }else if(onOct){
-    displayValue = displayOct;
+  if(onChangeSign){
+     int decimalEquiv = 0;
+    if(onHex){
+      decimalEquiv = int.parse(displayValue, radix: 16);
+      displayValue = (decimalEquiv - (decimalEquiv * 2)).toRadixString(16).toUpperCase();
+    }else if(onDec){
+      decimalEquiv = int.parse(displayValue, radix: 10);
+      displayValue = (decimalEquiv - (decimalEquiv * 2)).toString();
+    }else if(onOct){
+      decimalEquiv = int.parse(displayValue, radix: 8);
+      displayValue = (decimalEquiv - (decimalEquiv * 2)).toRadixString(8);
+    }else if(onBin){
+      decimalEquiv = int.parse(displayValue, radix: 2);
+      displayValue = (decimalEquiv - (decimalEquiv * 2)).toRadixString(2);
+    }
+    displayStream.sink.add(displayValue);
+    willOperateStream.sink.add(false);
+  }else{
+    if(onTwos){
+      onTwos = false;
+    }
+    displayValue = displayValue.replaceAll('-', '');
+    displayStream.sink.add(displayValue);
   }
 }
 

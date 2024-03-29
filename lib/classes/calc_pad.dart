@@ -3,6 +3,7 @@ import 'package:base_n_calculator/classes/button_row.dart';
 import 'package:base_n_calculator/classes/calc_button.dart';
 import 'package:base_n_calculator/classes/colors.dart';
 import 'package:base_n_calculator/classes/operation_buttons.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CalcPad extends StatefulWidget {
@@ -20,7 +21,7 @@ class _CalcPadState extends State<CalcPad> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         ButtonRow(
-          first: CalcButton(color: IOSColors.tertiary, iconColor: Colors.black),
+          first: CalcButton(color: IOSColors.tertiary),
           second: CalcButton(color: IOSColors.primary, text: 'D'),
           third: CalcButton(color: IOSColors.primary, text: 'E'),
           fourth: CalcButton(color: IOSColors.primary, text: 'F'),
@@ -55,7 +56,7 @@ class _CalcPadState extends State<CalcPad> {
           fifth: const AddButton(),
         ),
         ButtonRow(
-          first: CalcButton(color:  IOSColors.tertiary, iconColor: Colors.black),
+          first: InfoButton(color:  IOSColors.tertiary, icon: CupertinoIcons.info, iconColor: Colors.black),
           second: CalcButton(color: IOSColors.primary, text: '0', width: 155),
           third: const SignButton(),
           fourth: const EqualButton(),
