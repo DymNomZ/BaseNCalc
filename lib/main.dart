@@ -70,14 +70,6 @@ class _CalcState extends State<Calc> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        title:  const Align(
-          alignment: Alignment.center,
-          child: IOStext(text: 'Number Conversion System\nProgrammer: John Dymier O. Borgonia, Section: F1', 
-          align: TextAlign.center, size: 15),
-        ),
-      ),
       body: Column(
         children: <Widget>[
           Expanded(

@@ -167,18 +167,14 @@ class _InfoButtonState extends State<InfoButton> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                const IOStext(text: 'CS132 Introduction to Computer Systems\nMidterm Project', 
-                                align: TextAlign.center, size: 20),
-                                const IOStext(text: 'Number Conversion System', align: TextAlign.center),
-                                const IOStext(text: 'Programmer: John Dymier O. Borgonia, Section: F1', 
-                                align: TextAlign.center, size: 25),
+                                const IOStext(text: 'BaseNCalc', align: TextAlign.center),
                                 const IOStext(text: '☘ App Info ☘', 
                                 align: TextAlign.center, size: 25),
-                                const IOStext(text: 'A Programmer Calculator, with conversions from Base-2 to Base-16!\n\n Visit my Github profile:', 
+                                const IOStext(text: 'A programming oriented calculator with conversions from Base-2 to Base-16!\n\n Visit my Github profile:', 
                                 align: TextAlign.center, size: 25),
                                 InkWell(
                                   onTap: () => _launchURL(),
-                                  child: const Text('https://github.com/DymNomZ', style: TextStyle(color: Colors.green, fontWeight: FontWeight.w400, fontSize: 14),)
+                                  child: const Text('https://github.com/DymNomZ', style: TextStyle(color: Colors.green, fontWeight: FontWeight.w400, fontSize: 18),)
                                 ),
                               ],
                             ),
