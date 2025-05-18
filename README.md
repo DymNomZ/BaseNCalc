@@ -1,16 +1,12 @@
-# base_n_calculator
+# 🔢BaseNCalc
 
-A new Flutter project.
+Convert values from Base 2 up to Base 16! Currently available for Android devices, it's great for students and professional developers.
 
-## Getting Started
+General UI design and functions inspired by the iOS version: **Programmer's Calculator** by Yuma Kitasei<br>
+You can check the app on the App Store here: https://apps.apple.com/us/app/programmers-calculator/id1467603958
 
-This project is a starting point for a Flutter application.
+## ✨Features unique to the app!
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Modulo and exponent operations
+- NO ADS (lol)
+- Ones' and Twos' complement
